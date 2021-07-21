@@ -16,16 +16,11 @@ else
 fi
 
 # Establish variables
-neededPackages='ytop libatomic ffmpeg ffmpeg-libs vlc eog libXScrnSaver utils-linux-user fish rhythmbox filezilla gnome-software plank firefox libreoffice'
+neededPackages='ytop libatomic ffmpeg ffmpeg-libs vlc eog libXScrnSaver fish rhythmbox filezilla gnome-software plank firefox libreoffice'
 desiredDM=""
 desiredDE=""
 desiredShell=""
 
-# Enabling RPMFusion repositories. Free and Non-Free
-dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
-
-# Upgrade system for recent packages
-dnf upgrade -y
 
 # Ask for which DE to use.
 echo "[1] - GNOME Desktop Environment"
@@ -49,7 +44,7 @@ do
  break
  ;;
      [2])
- desiredDE="Cinnamon Desktop Environment"
+ desiredDE="Cinnamon Desktop"
  desiredDM="lightdm"
  break
  ;;
@@ -115,13 +110,21 @@ do
  esac
 done
 
+read -p "Please type the user to change shell: " userShellToChange
 
-dnf group install $desiredDE -y
+# Enabling RPMFusion repositories. Free and Non-Free
+dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
+
+# Upgrade system for recent packages
+dnf upgrade -y
+
+dnf group install "$desiredDE" -y
 
 dnf install $neededPackages -y
 
-chsh $desiredShell $USER
+chsh $desiredShell $userShellToChange
 
 echo "Enabling $desiredDM now..."
 sleep 2
 systemctl enable $desiredDM
+systemctl set-default graphical.target
