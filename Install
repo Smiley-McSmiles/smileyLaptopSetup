@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Create variable for working folder so we can delete this directory later.
+DIRECTORY=$(cd `dirname $0` && pwd)
+
+# Check for sudo
+DIRECTORY=$(cd `dirname $0` && pwd)
+has_sudo_access=""
+`timeout -k .1 .1 bash -c "sudo /bin/chmod --help" >&/dev/null 2>&1` >/dev/null 2>&1
+if [ $? -eq 0 ];then
+   has_sudo_access="YES"
+	echo "Hey $USER! My old friend..."
+	sleep 2
+else
+   has_sudo_access="NO"
+	echo "$USER, you're not using sudo..."
+	echo "Please use 'sudo ./setup.sh' to install the scripts."
+	exit
+fi
+
+# Move the network-restart script to enable network restart on wake from suspend
+mv scrpits/network-restart /usr/lib/systemd/system-sleep/
+chmod +x /usr/lib/systemd/system-sleep/network-restart
+
+# Run the Desktop Environment setup
+scripts/fedoraServerToDesktop.sh
+
+echo "DONE!..."
+
+# Remove directory
+rm -rfv $DIRECTORY
