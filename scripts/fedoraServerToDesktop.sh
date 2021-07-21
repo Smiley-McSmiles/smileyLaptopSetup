@@ -26,6 +26,9 @@ desiredShell=""
 # Enabling RPMFusion repositories. Free and Non-Free
 dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
+# Upgrade system for recent packages
+dnf upgrade -y
+
 # Ask for which DE to use.
 echo "[1] - GNOME Desktop Environment"
 echo "[2] - Cinnamon Desktop Environment"
@@ -88,7 +91,7 @@ do
  esac
 done
 
-dnf group install $desiredDE
+dnf group install $desiredDE -y
 
 dnf install $neededPackages -y
 
@@ -120,4 +123,5 @@ chsh $desiredShell
 
 echo "Enabling $desiredDM now..."
 sleep 2
-systemctl enable --now $desiredDM
+systemctl enable $desiredDM
+reboot
