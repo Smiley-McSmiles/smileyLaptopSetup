@@ -117,3 +117,7 @@ do
 done
 
 chsh $desiredShell
+
+echo "Enabling $desiredDM now..."
+sleep 2
+systemctl enable --now $desiredDM
