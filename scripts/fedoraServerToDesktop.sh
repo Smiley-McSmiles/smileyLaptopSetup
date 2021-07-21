@@ -125,4 +125,3 @@ chsh $desiredShell $USER
 echo "Enabling $desiredDM now..."
 sleep 2
 systemctl enable $desiredDM
-reboot
