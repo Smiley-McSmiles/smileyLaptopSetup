@@ -16,9 +16,7 @@ else
 fi
 
 # Establish variables
-neededPackages='gedit nemo-fileroller ytop libatomic ffmpeg ffmpeg-libs vlc eog libXScrnSaver utils-linux-user fish rhythmbox filezilla gnome-software plank firefox libreoffice'
-cinnamon="Cinnamon Desktop Environment"
-gnome="GNOME Desktop Environment"
+neededPackages='ytop libatomic ffmpeg ffmpeg-libs vlc eog libXScrnSaver utils-linux-user fish rhythmbox filezilla gnome-software plank firefox libreoffice'
 desiredDM=""
 desiredDE=""
 desiredShell=""
@@ -91,9 +89,7 @@ do
  esac
 done
 
-dnf group install $desiredDE -y
-
-dnf install $neededPackages -y
+clear
 
 # Ask for which Shell to use.
 echo "[1] - Bash"
@@ -119,7 +115,12 @@ do
  esac
 done
 
-chsh $desiredShell
+
+dnf group install $desiredDE -y
+
+dnf install $neededPackages -y
+
+chsh $desiredShell $USER
 
 echo "Enabling $desiredDM now..."
 sleep 2
