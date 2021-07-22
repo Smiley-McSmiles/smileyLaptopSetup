@@ -122,7 +122,7 @@ dnf group install "$desiredDE" -y
 
 dnf install $neededPackages -y
 
-chsh $desiredShell $userShellToChange
+chsh -s $desiredShell $userShellToChange
 
 echo "Enabling $desiredDM now..."
 sleep 2
